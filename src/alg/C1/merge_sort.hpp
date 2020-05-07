@@ -10,32 +10,50 @@ void merge(T* arr, int low_bound_index, int splite_index, int up_bound_index)
     int lhs_element_size = splite_index - low_bound_index + 1;
     int rhs_element_size = up_bound_index - splite_index;
 
-    T lhs_element[lhs_element_size + 1] = {0};
-    lhs_element[lhs_element_size] = 0x7fffffff;
-    T rhs_element[rhs_element_size + 1] = {0};
-    rhs_element[rhs_element_size] = 0x7fffffff;
+    T lhs_element[lhs_element_size];
+    T rhs_element[rhs_element_size];
 
     for (int i = 0; i != lhs_element_size; i++)
         lhs_element[i] = arr[low_bound_index + i];
     for (int i = 0; i != rhs_element_size; i++)
         rhs_element[i] = arr[splite_index + 1 + i];
 
-    int element_size = lhs_element_size + rhs_element_size;
+#if 1
     int lhs_index = 0;
     int rhs_index = 0;
-    for (int i = low_bound_index; i <= up_bound_index; i++)
+    int index = low_bound_index;
+    while (lhs_index <= lhs_element_size - 1 && rhs_index <= rhs_element_size - 1)
     {
-        if (lhs_element[lhs_index] <= rhs_element[rhs_index])
+        if (lhs_element[lhs_index] < rhs_element[rhs_index])
         {
-            arr[i] = lhs_element[lhs_index];
+            arr[index] = lhs_element[lhs_index];
+            index++;
             lhs_index++;
         }
         else
         {
-            arr[i] = rhs_element[rhs_index];
+            arr[index] = rhs_element[rhs_index];
+            index++;
             rhs_index++;
         }
     }
+
+    while (lhs_index <= lhs_element_size - 1)
+    {
+        arr[index] = lhs_element[lhs_index];
+        index++;
+        lhs_index++;
+    }
+
+    while (rhs_index <= rhs_element_size - 1)
+    {
+        arr[index] = rhs_element[rhs_index];
+        index++;
+        rhs_index++;
+    }
+
+#else
+#endif
 }
 
 template<typename T>

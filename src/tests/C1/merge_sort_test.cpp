@@ -9,7 +9,10 @@ int main(int argc, const char* argv[])
 #if 1
     int arr[] = {-1, -100, -1000, 0x6fffffff, 1, 3, 8, 0, 2, 4, 9};
     int arr_len = sizeof(arr) / sizeof(arr[0]);
-    //int mid = arr_len / 2;
+    for (int i = 0; i != arr_len; i++)
+        std::cout << arr[i] << ", ";
+    std::cout << std::endl;
+
     merge_sort(arr, 0, arr_len - 1);
 
     for (int i = 0; i != arr_len; i++)
