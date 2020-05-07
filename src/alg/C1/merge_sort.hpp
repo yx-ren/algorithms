@@ -10,9 +10,9 @@ void merge(T* arr, int low_bound_index, int splite_index, int up_bound_index)
     int lhs_element_size = splite_index - low_bound_index + 1;
     int rhs_element_size = up_bound_index - splite_index;
 
-    T lhs_element[lhs_element_size] = {0};
+    T lhs_element[lhs_element_size + 1] = {0};
     lhs_element[lhs_element_size] = 0x7fffffff;
-    T rhs_element[rhs_element_size] = {0};
+    T rhs_element[rhs_element_size + 1] = {0};
     rhs_element[rhs_element_size] = 0x7fffffff;
 
     for (int i = 0; i != lhs_element_size; i++)
