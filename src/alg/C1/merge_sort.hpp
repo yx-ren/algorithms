@@ -1,82 +1,54 @@
 #include <iostream>
+#include <assert.h>
 
 int global_count = 0;
 template<typename T>
-void merge(T* arr, int lhs_bound, int mid, int rhs_bound)
+void merge(T* arr, int low_bound_index, int splite_index, int up_bound_index)
 {
-#if 1
-    if (lhs_bound >= rhs_bound)
-        return;
-#else
-    if (mid == 0)
-        return;
-#endif
+    assert(low_bound_index <= splite_index && splite_index < up_bound_index);
 
-    int element_size = rhs_bound - lhs_bound + 1;
-    int lhs_element_size = mid - lhs_bound + 1;
-    int rhs_element_size = rhs_bound - mid;
+    int lhs_element_size = splite_index - low_bound_index + 1;
+    int rhs_element_size = up_bound_index - splite_index;
 
-    int index = 0;
-    T lhs_arr[lhs_element_size] = {0};
-    for (int i = lhs_bound; i <= mid; i++, index++)
-        lhs_arr[index] = arr[i];
+    T lhs_element[lhs_element_size] = {0};
+    lhs_element[lhs_element_size] = 0x7fffffff;
+    T rhs_element[rhs_element_size] = {0};
+    rhs_element[rhs_element_size] = 0x7fffffff;
 
-    index = 0;
-    T rhs_arr[rhs_element_size] = {0};
-    for (int i = mid + 1; i < rhs_bound; i++, index++)
-        rhs_arr[index] = arr[i];
+    for (int i = 0; i != lhs_element_size; i++)
+        lhs_element[i] = arr[low_bound_index + i];
+    for (int i = 0; i != rhs_element_size; i++)
+        rhs_element[i] = arr[splite_index + 1 + i];
 
+    int element_size = lhs_element_size + rhs_element_size;
     int lhs_index = 0;
     int rhs_index = 0;
-    //index = 0;
-#if 0
-    while (lhs_index < lhs_element_size || rhs_index < rhs_element_size)
+    for (int i = low_bound_index; i <= up_bound_index; i++)
     {
-        if (lhs_arr[lhs_index] < rhs_arr[rhs_index])
+        if (lhs_element[lhs_index] <= rhs_element[rhs_index])
         {
-            arr[index] = lhs_arr[lhs_index];
+            arr[i] = lhs_element[lhs_index];
             lhs_index++;
         }
         else
         {
-            arr[index] = rhs_arr[rhs_index];
-            rhs_index++;
-        }
-
-        index++;
-    }
-#else
-    for (int index = 0; index != element_size; index++)
-    {
-        if (lhs_arr[lhs_index] < rhs_arr[rhs_index])
-        {
-            arr[index] = lhs_arr[lhs_index];
-            lhs_index++;
-        }
-        else
-        {
-            arr[index] = rhs_arr[rhs_index];
+            arr[i] = rhs_element[rhs_index];
             rhs_index++;
         }
     }
-#endif
-
-    return;
 }
 
 template<typename T>
 void merge_sort(T arr, int lhs_bound, int rhs_bound)
 {
     std::cout << global_count++ << std::endl;
+    if (lhs_bound >= rhs_bound)
+        return;
+
     int mid = lhs_bound + ((rhs_bound - lhs_bound) / 2);
 
-#if 0
-    merge(arr, 0, mid / 2, mid);
-    merge(arr, mid + 1, (len - (mid + 1)) / 2, len);
-#else
     merge_sort(arr, lhs_bound, mid);
     merge_sort(arr, mid + 1, rhs_bound);
-#endif
 
     merge(arr, lhs_bound, mid, rhs_bound);
 }
