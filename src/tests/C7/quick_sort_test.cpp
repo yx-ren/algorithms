@@ -5,7 +5,7 @@
 using ALG_TEST_NAMESPACE;
 int main(int argc, const char* argv[])
 {
-    int array[] = {1, 3, 5, 7, 9, 2, 4, 6, 8, 0};
+    int array[] = {1, 3, 5, 7, 9, 2, 4, 6, 8, 0, 10, 10, 10, 11, 111, -1, -2, 0, -100};
     int len = sizeof(array) / sizeof(array[0]);
     quick_sort(array, len, 0, len - 1);
 
